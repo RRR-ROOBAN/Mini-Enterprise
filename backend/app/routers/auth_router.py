@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException,status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models.user_model import User
@@ -7,15 +7,10 @@ from app.services.auth_service import hash_password, verify_password, create_acc
 from app.services.role_service import require_role
 from app.database import get_db
 
-
 from fastapi import Depends
 from app.services.auth_service import get_current_user
 
-
 router = APIRouter(prefix="/auth", tags=["Auth"])
-
-
-
 
 
 # 📝 Register
@@ -45,21 +40,21 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
 
     if not db_user or not verify_password(user.password, db_user.hashed_password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials"
+        )
 
     token = create_access_token({"sub": db_user.email})
 
-    return {"access_token": token, "token_type": "bearer"}
+    # 🔥🔥 FIX HERE (ADD ROLE)
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "role": db_user.role   # ✅ IMPORTANT LINE
+    }
 
 
 @router.get("/me", dependencies=[Depends(get_current_user)])
-def get_me(current_user = Depends(get_current_user)):
+def get_me(current_user=Depends(get_current_user)):
     return current_user
-
-# @router.get("/admin-only")
-# def admin_only(current_user = Depends(require_role(["admin"]))):
-#     return {"message": "Welcome Admin"}
-
-# @router.get("/manager-only")
-# def manager_only(current_user = Depends(require_role(["admin", "manager"]))):
-#     return {"message": "Admin or Manager allowed"}

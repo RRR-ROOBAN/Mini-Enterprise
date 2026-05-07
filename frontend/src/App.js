@@ -1,24 +1,36 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast"; // ✅ ADD
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Approvals from "./pages/Approvals";
+import Kanban from "./pages/Kanban";
 import CreateTask from "./pages/CreateTask";
+import Comments from "./pages/Comments";
+import EditTask from "./pages/EditTask";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+
   return (
+
     <Router>
-      {/* 🔥 Toast container */}
-      <Toaster position="top-center" reverseOrder={false} />
 
       <Routes>
-        {/* Public */}
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
 
-        {/* Protected */}
+        {/* ✅ PUBLIC ROUTES */}
+        <Route
+          path="/"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        {/* ✅ DASHBOARD */}
         <Route
           path="/dashboard"
           element={
@@ -28,6 +40,27 @@ function App() {
           }
         />
 
+        {/* ✅ APPROVALS */}
+        <Route
+          path="/approvals"
+          element={
+            <ProtectedRoute>
+              <Approvals />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ✅ KANBAN */}
+        <Route
+          path="/kanban"
+          element={
+            <ProtectedRoute>
+              <Kanban />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ✅ CREATE TASK */}
         <Route
           path="/create-task"
           element={
@@ -36,7 +69,29 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* ✅ EDIT TASK */}
+        <Route
+          path="/edit-task/:id"
+          element={
+            <ProtectedRoute>
+              <EditTask />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ✅ COMMENTS */}
+        <Route
+          path="/comments"
+          element={
+            <ProtectedRoute>
+              <Comments />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
+
     </Router>
   );
 }

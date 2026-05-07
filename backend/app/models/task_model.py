@@ -17,3 +17,4 @@ class Task(Base):
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
+    updated_by = Column(Integer, ForeignKey("users.id"), nullable=True)

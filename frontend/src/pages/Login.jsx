@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast"; // ✅ ADD
+import toast from "react-hot-toast";
 import API from "../services/api";
 
 function Login() {
@@ -14,9 +14,20 @@ function Login() {
     try {
       const res = await API.post("/auth/login", { email, password });
 
+      console.log("LOGIN RESPONSE:", res.data); // 🔍 DEBUG
+
+      // 🔥 CLEAR OLD DATA (IMPORTANT)
+      localStorage.clear();
+
+      // ✅ SAVE TOKEN
       localStorage.setItem("token", res.data.access_token);
 
-      toast.success("Login successful"); // ✅ SUCCESS MESSAGE
+      // ✅ SAVE ROLE (MAIN FIX)
+      localStorage.setItem("role", res.data.role);
+
+      console.log("SAVED ROLE:", res.data.role); // 🔍 DEBUG
+
+      toast.success("Login successful");
 
       navigate("/dashboard");
 
@@ -24,7 +35,7 @@ function Login() {
       const message =
         err.response?.data?.detail || "Invalid email or password";
 
-      toast.error(message); // ✅ REPLACED ALERT
+      toast.error(message);
     }
   };
 
@@ -48,7 +59,6 @@ function Login() {
 
         <button style={styles.button}>Login</button>
 
-        {/* 👉 Register button */}
         <p style={{ marginTop: "15px" }}>
           Don’t have account?{" "}
           <span
