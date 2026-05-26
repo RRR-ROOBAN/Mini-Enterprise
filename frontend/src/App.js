@@ -1,130 +1,315 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+
+BrowserRouter as Router,
+
+Routes,
+
+Route
+
+} from "react-router-dom";
+
+import { Toaster } from "react-hot-toast";
 
 import Login from "./pages/Login";
+
 import Register from "./pages/Register";
+
 import Dashboard from "./pages/Dashboard";
+
 import Approvals from "./pages/Approvals";
+
 import Kanban from "./pages/Kanban";
+
 import CreateTask from "./pages/CreateTask";
+
 import Comments from "./pages/Comments";
+
 import EditTask from "./pages/EditTask";
 
-import ProtectedRoute from "./components/ProtectedRoute";
 import AuditLogs from "./pages/AuditLogs";
+
 import Notifications from "./pages/Notifications";
+
 import Documents from "./pages/Documents";
 
+import OAuthSuccess from "./pages/OAuthSuccess";
 
-function App() {
+import ProtectedRoute from "./components/ProtectedRoute";
 
-  return (
+import Activity from "./pages/Activity";
 
-    <Router>
+import AIInsights from "./pages/AIInsights";
 
-      <Routes>
+import Billing from "./pages/Billing";
 
-        {/* ✅ PUBLIC ROUTES */}
-        <Route
-          path="/"
-          element={<Login />}
-        />
+import Subscription from "./pages/Subscription";
 
-        <Route
-          path="/register"
-          element={<Register />}
-        />
 
-        {/* ✅ DASHBOARD */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
 
-        {/* ✅ APPROVALS */}
-        <Route
-          path="/approvals"
-          element={
-            <ProtectedRoute>
-              <Approvals />
-            </ProtectedRoute>
-          }
-        />
 
-        {/* ✅ KANBAN */}
-        <Route
-          path="/kanban"
-          element={
-            <ProtectedRoute>
-              <Kanban />
-            </ProtectedRoute>
-          }
-        />
+function App(){
 
-        {/* ✅ CREATE TASK */}
-        <Route
-          path="/create-task"
-          element={
-            <ProtectedRoute>
-              <CreateTask />
-            </ProtectedRoute>
-          }
-        />
+return(
 
-        {/* ✅ EDIT TASK */}
-        <Route
-          path="/edit-task/:id"
-          element={
-            <ProtectedRoute>
-              <EditTask />
-            </ProtectedRoute>
-          }
-        />
+<Router>
 
-        {/* ✅ COMMENTS */}
-        <Route
-          path="/comments"
-          element={
-            <ProtectedRoute>
-              <Comments />
-            </ProtectedRoute>
-          }
-        />
+<Toaster
 
-        <Route
-          path="/notifications"
-          element={
-            <ProtectedRoute>
-              <Notifications />
-            </ProtectedRoute>
-          }
-        />
+position="top-right"
 
-        <Route
-          path="/audit-logs"
-          element={
-            <ProtectedRoute>
-              <AuditLogs />
-            </ProtectedRoute>
-          }
-        />
+reverseOrder={false}
 
-        <Route
-          path="/documents"
-          element={
-            <ProtectedRoute>
-              <Documents />
-            </ProtectedRoute>
-          }
-        />
+/>
 
-      </Routes>
+<Routes>
 
-    </Router>
-  );
+<Route
+
+path="/"
+
+element={<Login/>}
+
+/>
+
+<Route
+
+path="/register"
+
+element={<Register/>}
+
+/>
+
+<Route
+
+path="/oauth-success"
+
+element={<OAuthSuccess/>}
+
+/>
+
+<Route
+
+path="/dashboard"
+
+element={
+
+<ProtectedRoute>
+
+<Dashboard/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/approvals"
+
+element={
+
+<ProtectedRoute>
+
+<Approvals/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/kanban"
+
+element={
+
+<ProtectedRoute>
+
+<Kanban/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/create-task"
+
+element={
+
+<ProtectedRoute>
+
+<CreateTask/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/edit-task/:id"
+
+element={
+
+<ProtectedRoute>
+
+<EditTask/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/comments"
+
+element={
+
+<ProtectedRoute>
+
+<Comments/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/notifications"
+
+element={
+
+<ProtectedRoute>
+
+<Notifications/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/audit-logs"
+
+element={
+
+<ProtectedRoute>
+
+<AuditLogs/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/documents"
+
+element={
+
+<ProtectedRoute>
+
+<Documents/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/ai-insights"
+
+element={
+
+<ProtectedRoute>
+
+<AIInsights/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/activity"
+
+element={
+
+<ProtectedRoute>
+
+<Activity/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+<Route
+
+path="/billing"
+
+element={
+
+<ProtectedRoute>
+
+<Billing/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+
+<Route
+
+path="/subscription"
+
+element={
+
+<ProtectedRoute>
+
+<Subscription/>
+
+</ProtectedRoute>
+
+}
+
+/>
+
+
+
+
+
+
+
+
+
+</Routes>
+
+</Router>
+
+);
+
 }
 
 export default App;

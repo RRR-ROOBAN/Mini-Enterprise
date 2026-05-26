@@ -1,0 +1,88 @@
+Mini Enterprice
+
+{
+  "name": "Admin1",
+  "email": "admin@test.com",
+  "password": "1234",
+  "role": "admin"
+}
+
+
+{
+  "email": "admin@test.com",
+  "password": "1234"
+}
+ ...............
+
+{
+  "name": "Manager1",
+  "email": "manager@test.com",
+  "password": "1234",
+  "role": "manager"
+}
+
+{
+  "email": "manager@test.com",
+  "password": "1234"
+}
+
+........................
+
+{
+  "name": "Employee1",
+  "email": "emp1@test.com",
+  "password": "1234",
+  "role": "employee"
+}
+
+
+{
+  "email": "emp1@test.com",
+  "password": "1234"
+}
+
+
+
+
+Task details
+
+
+{
+  "title": "Prepare Report",
+  "description": "Monthly report",
+  "priority": "high",
+  "due_date": "2026-05-01",
+  "assigned_to_id": 3
+}
+
+
+{
+  "title": "Updated Task",
+  "description": "Updated description",
+  "priority": "medium",
+  "due_date": "2026-05-10"
+}
+
+
+.....................
+
+
+{
+  "title": "Leave Request",
+  "description": "Need 2 days leave"
+}
+
+
+
+{
+  "content": "Working on this task",
+  "is_internal": false
+}
+
+
+
+2. Add Internal Comment (Manager/Admin)
+{
+  "content": "Need to review this carefully",
+  "is_internal": true
+}

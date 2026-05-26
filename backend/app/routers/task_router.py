@@ -42,15 +42,26 @@ def create_task(
 # ✅ Get Tasks
 @router.get("/")
 def get_tasks(
+
+    page: int = 1,
+
+    limit: int = 10,
+
     db: Session = Depends(get_db),
+
     current_user = Depends(get_current_user)
 ):
 
     return get_tasks_service(
-        db,
-        current_user
-    )
 
+        db,
+
+        current_user,
+
+        page,
+
+        limit
+    )
 
 # ✅ Update Task
 @router.put("/{task_id}")

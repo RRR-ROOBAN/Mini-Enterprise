@@ -3,161 +3,322 @@ import os
 import shutil
 
 from fastapi import (
+
     UploadFile,
+
     HTTPException
+
 )
 
 from fastapi.responses import (
+
     FileResponse
+
 )
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import (
 
-from sqlalchemy import select
+    Session
+
+)
+
+from sqlalchemy import (
+
+    select
+
+)
 
 from app.models.document_model import (
+
     Document
+
 )
 
 from app.models.task_model import (
+
     Task
+
 )
 
 
-UPLOAD_FOLDER = "uploads"
+UPLOAD_FOLDER="uploads"
 
 
-# ✅ Upload Document
+# ✅ Upload
 def upload_document_service(
-    task_id: int,
-    file: UploadFile,
-    db: Session,
+
+    task_id:int,
+
+    file:UploadFile,
+
+    db:Session,
+
     current_user
+
 ):
 
-    query = select(Task).where(
-        Task.id == task_id
-    )
+    task=db.execute(
 
-    task = db.execute(
-        query
+        select(
+
+            Task
+
+        ).where(
+
+            Task.id
+
+            ==
+
+            task_id
+
+        )
+
     ).scalars().first()
+
 
     if not task:
 
         raise HTTPException(
+
             status_code=404,
-            detail="Task not found"
+
+            detail=
+
+            "Task not found"
+
         )
+
 
     os.makedirs(
+
         UPLOAD_FOLDER,
+
         exist_ok=True
+
     )
 
-    existing_query = select(Document).where(
-        Document.task_id == task_id,
-        Document.file_name == file.filename
-    )
 
-    existing_docs = db.execute(
-        existing_query
-    ).scalars().all()
+    existing_docs=db.execute(
 
-    version = len(existing_docs) + 1
+        select(
 
-    file_path = (
-        f"{UPLOAD_FOLDER}/v{version}_{file.filename}"
-    )
+            Document
 
-    with open(file_path, "wb") as buffer:
+        ).where(
 
-        shutil.copyfileobj(
-            file.file,
-            buffer
+            Document.task_id
+
+            ==
+
+            task_id,
+
+            Document.file_name
+
+            ==
+
+            file.filename
+
         )
 
-    document = Document(
-        file_name=file.filename,
-        file_path=file_path,
-        version=version,
-        uploaded_by=current_user.id,
-        task_id=task_id
+    ).scalars().all()
+
+
+    version=len(
+
+        existing_docs
+
+    )+1
+
+
+    file_path=(
+
+        f"{UPLOAD_FOLDER}/"
+
+        f"v{version}_{file.filename}"
+
     )
 
-    db.add(document)
+
+    with open(
+
+        file_path,
+
+        "wb"
+
+    ) as buffer:
+
+        shutil.copyfileobj(
+
+            file.file,
+
+            buffer
+
+        )
+
+
+    document=Document(
+
+        file_name=file.filename,
+
+        file_path=file_path,
+
+        version=version,
+
+        uploaded_by=current_user.id,
+
+        task_id=task_id
+
+    )
+
+
+    db.add(
+
+        document
+
+    )
 
     db.commit()
 
-    db.refresh(document)
+    db.refresh(
+
+        document
+
+    )
+
 
     return document
 
 
 # ✅ Get Document
 def get_document_service(
-    document_id: int,
-    db: Session
+
+    document_id:int,
+
+    db:Session,
+
+    current_user
+
 ):
 
-    query = select(Document).where(
-        Document.id == document_id
-    )
+    document=db.execute(
 
-    document = db.execute(
-        query
+        select(
+
+            Document
+
+        ).where(
+
+            Document.id
+
+            ==
+
+            document_id
+
+        )
+
     ).scalars().first()
+
 
     if not document:
 
         raise HTTPException(
+
             status_code=404,
-            detail="Document not found"
+
+            detail=
+
+            "Document not found"
+
         )
+
 
     return document
 
 
-# ✅ Get Task Documents
+# ✅ Task Documents
 def get_task_documents_service(
-    task_id: int,
-    db: Session
+
+    task_id:int,
+
+    db:Session,
+
+    current_user
+
 ):
 
-    query = select(Document).where(
-        Document.task_id == task_id
-    )
+    documents=db.execute(
 
-    documents = db.execute(
-        query
+        select(
+
+            Document
+
+        ).where(
+
+            Document.task_id
+
+            ==
+
+            task_id
+
+        )
+
     ).scalars().all()
+
 
     return documents
 
 
-# ✅ Download Document
+# ✅ Download
 def download_document_service(
-    document_id: int,
-    db: Session
+
+    document_id:int,
+
+    db:Session,
+
+    current_user
+
 ):
 
-    query = select(Document).where(
-        Document.id == document_id
-    )
+    document=db.execute(
 
-    document = db.execute(
-        query
+        select(
+
+            Document
+
+        ).where(
+
+            Document.id
+
+            ==
+
+            document_id
+
+        )
+
     ).scalars().first()
+
 
     if not document:
 
         raise HTTPException(
+
             status_code=404,
-            detail="Document not found"
+
+            detail=
+
+            "Document not found"
+
         )
 
+
     return FileResponse(
+
         path=document.file_path,
+
         filename=document.file_name,
-        media_type="application/octet-stream"
+
+        media_type=
+
+        "application/octet-stream"
+
     )
